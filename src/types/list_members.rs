@@ -276,7 +276,7 @@ impl ListMember {
     ///
     pub fn delete(&self) -> Option<MailchimpErrorType> {
         // DELETE /lists/{list_id}/members/{subscriber_hash}
-        let b_endpoint = self._endpoint.clone();
+        let b_endpoint = self.build_list_endpoint();
         match self
             ._api
             .delete::<EmptyType>(b_endpoint.as_str(), HashMap::new())
@@ -314,7 +314,7 @@ impl ListMember {
     }
 
     fn build_list_endpoint(&self) -> String {
-        format!("/list/{}/members/{}", self.list_id, self.id)
+        format!("list/{}/members/{}", self.list_id, self.id)
     }
 
     ///
@@ -322,7 +322,7 @@ impl ListMember {
     ///
     pub fn get_activity(&self) -> MalchimpIter<ListMemberActivityBuilder> {
         // GET /lists/{list_id}/members/{subscriber_hash}/activity
-        let mut endpoint = self.get_base_endpoint();
+        let mut endpoint = self.build_list_endpoint();
         endpoint.push_str("/activity");
         let filter_params = SimpleFilter::default();
 
@@ -362,8 +362,7 @@ impl ListMember {
     ///
     pub fn get_goals(&self) -> MalchimpIter<ListMemberGoalBuilder> {
         // GET  /lists/{list_id}/members/{subscriber_hash}/goals
-        let mut endpoint = self.get_base_endpoint().to_string() + "/";
-        endpoint.push_str(&self.id);
+        let mut endpoint = self.build_list_endpoint();
         endpoint.push_str("/goals");
         let filter_params = SimpleFilter::default();
 
@@ -399,7 +398,7 @@ impl ListMember {
     ///
     pub fn get_tags(&self) -> MalchimpIter<ListMemberTagBuilder> {
         // GET /lists/{list_id}/members/{subscriber_hash}/tags
-        let mut endpoint = self.get_base_endpoint();
+        let mut endpoint = self.build_list_endpoint();
         endpoint.push_str("/tags");
         let filter_params = SimpleFilter::default();
 
@@ -439,7 +438,7 @@ impl ListMember {
     ///
     pub fn post_tag(&self, tags: Vec<ListMemberTagType>) -> Option<MailchimpErrorType> {
         // POST /lists/{list_id}/members/{subscriber_hash}/tags
-        let mut endpoint = self.get_base_endpoint();
+        let mut endpoint = self.build_list_endpoint();
         endpoint.push_str("/tags");
         let param = ListMemberTagParam { tags: tags };
 
@@ -460,7 +459,7 @@ impl ListMember {
     ///
     pub fn get_notes(&self, filters: Option<SimpleFilter>) -> MalchimpIter<ListMemberNoteBuilder> {
         // GET /lists/{list_id}/members/{subscriber_hash}/notes
-        let mut endpoint = self.get_base_endpoint();
+        let mut endpoint = self.build_list_endpoint();
         endpoint.push_str("/notes");
 
         let filter_params = if let Some(f) = filters {
@@ -509,7 +508,7 @@ impl ListMember {
     ///
     pub fn get_specific_note<'a>(&self, note_id: &'a str) -> MailchimpResult<ListMemberNote> {
         // GET /lists/{list_id}/members/{subscriber_hash}/notes/{note_id}
-        let mut endpoint = self.get_base_endpoint();
+        let mut endpoint = self.build_list_endpoint();
         endpoint.push_str("/notes/");
         endpoint.push_str(note_id);
 
@@ -524,7 +523,7 @@ impl ListMember {
     ///
     pub fn create_note<'a>(&self, note: &'a str) -> MailchimpResult<ListMemberNote> {
         // POST /lists/{list_id}/members/{subscriber_hash}/notes
-        let mut endpoint = self.get_base_endpoint();
+        let mut endpoint = self.build_list_endpoint();
         endpoint.push_str("/notes");
         let mut payload = HashMap::new();
         payload.insert("note".to_string(), note.to_string());
