@@ -261,6 +261,7 @@ impl MailchimpRequest {
                         Err(MailchimpErrorType::default())
                     }
                 },
+                StatusCode::NO_CONTENT => Ok("".to_string()),
                 status => match resp.text() {
                     Ok(txt) => match serde_json::from_str(&txt) {
                         Ok(value) => Err(value),
