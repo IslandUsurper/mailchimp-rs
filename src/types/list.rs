@@ -862,6 +862,11 @@ impl ListType {
         endpoint.push_str(subscriber_hash);
 
         self._api.get::<ListMember>(&endpoint, HashMap::new())
+            .map(|mut member| {
+                member.set_api(self._api.clone());
+                member.set_endpoint(&endpoint);
+                member
+            })
     }
 
     ///
