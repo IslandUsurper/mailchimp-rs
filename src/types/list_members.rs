@@ -314,7 +314,7 @@ impl ListMember {
     }
 
     fn build_list_endpoint(&self) -> String {
-        format!("list/{}/members/{}", self.list_id, self.id)
+        format!("lists/{}/members/{}", self.list_id, self.id)
     }
 
     ///
