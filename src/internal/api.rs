@@ -43,7 +43,7 @@ where
             req: http_transport,
             basic_auth: Some(BasicAuth {
                 username: "".to_string(),
-                api_token: api_key.to_string(),
+                api_token: format!("{}-{}", api_key, dc),
             }),
         }
     }
