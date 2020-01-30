@@ -702,6 +702,10 @@ impl CampaignType {
         let endpoint = self.get_base_endpoint();
         self._api
             .patch::<CampaignType, UpdateCampaignParam>(&endpoint, param)
+            .map(|mut campaign| {
+                campaign.set_api(self._api.clone());
+                campaign
+            })
     }
 
     // ======================== Content ===========
