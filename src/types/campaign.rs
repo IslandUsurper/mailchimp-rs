@@ -626,6 +626,10 @@ impl CampaignType {
         let endpoint = self.get_base_endpoint() + "/actions/replicate";
         self._api
             .post::<CampaignType, HashMap<String, String>>(&endpoint, HashMap::new())
+            .map(|mut campaign| {
+                campaign.set_api(self._api.clone());
+                campaign
+            })
     }
     ///
     /// Resume an RSS-Driven campaign.
