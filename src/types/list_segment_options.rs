@@ -135,7 +135,7 @@ pub struct SegmentGeoCondition {
 /// Segment Operator
 ///
 #[derive(Serialize, Deserialize, Debug, Clone)]
-#[serde(untagged, rename_all = "snake_case")]
+#[serde(rename_all = "snake_case")]
 pub enum SegmentConditionOp {
     // Aim conditions
     /// The campaign was opened by the subscriber.
