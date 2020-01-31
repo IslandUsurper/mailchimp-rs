@@ -8,30 +8,21 @@ use std::collections::HashMap;
 ///
 ///  Use this template to generate the HTML content for the campaign.
 ///
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct TemplateContent {
     /// The id of the template to use.
     #[serde(default)]
-    pub id: String,
+    pub id: u64,
     /// Content for the sections of the template. Each key should be
     /// the unique mc:edit area name from the template.
     #[serde(default)]
     pub sections: HashMap<String, String>,
 }
 
-impl Default for TemplateContent {
-    fn default() -> Self {
-        TemplateContent {
-            id: "".to_string(),
-            sections: HashMap::new(),
-        }
-    }
-}
-
 ///
 ///  Use this template to generate the HTML content for the campaign.
 ///
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct UploadArchive {
     /// The base64-encoded representation of the archive file.
     #[serde(default)]
@@ -39,15 +30,28 @@ pub struct UploadArchive {
     /// The type of encoded file. Defaults to zip.
     /// Possible Values: zip tar.gz tar.bz2 tar tgz tbz
     #[serde(default)]
-    pub archive_type: String,
+    pub archive_type: ArchiveType,
 }
 
-impl Default for UploadArchive {
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub enum ArchiveType {
+    #[serde(rename = "zip")]
+    Zip,
+    #[serde(rename = "tar.gz")]
+    Gzip,
+    #[serde(rename = "tar.bz2")]
+    Bzip,
+    #[serde(rename = "tar")]
+    Tar,
+    #[serde(rename = "tgz")]
+    Tgz,
+    #[serde(rename = "tbz")]
+    Tbz
+}
+
+impl Default for ArchiveType {
     fn default() -> Self {
-        UploadArchive {
-            archive_content: "".to_string(),
-            archive_type: "".to_string(),
-        }
+        ArchiveType::Zip
     }
 }
 
