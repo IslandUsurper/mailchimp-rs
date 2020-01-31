@@ -216,7 +216,7 @@ impl HttpReq for MailchimpRequest {
     {
         let builder = match basic_auth {
             Some(auth) => CLIENT
-                .patch(url)
+                .put(url)
                 .basic_auth(auth.username.clone(), Some(auth.api_token.clone())),
             None => CLIENT.post(url),
         };
